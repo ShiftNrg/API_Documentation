@@ -8,7 +8,7 @@ All endpoints will return:
 
 - Success parameter. true or false dependent on success.
 - Error parameter. Provided when response is unsuccessful.
- 
+- 
 The API is only available after the client has successfully loaded,<br /> otherwise all endpoints will return:
 
     {
@@ -21,7 +21,7 @@ In the case the client is not fully synced all routes may return intermediate/ol
 
 Each API entry contains an example call to help provide understanding of how to use the call.
 These examples rely on curl being installed and Shift running on the localhost.
-The examples also include ```<field>``` use this for easy identification of what needs to be changed for the call to function.
+The examples also include ```<field>´´´ use this for easy identification of what needs to be changed for the call to function.
 
 ##Accounts
 
@@ -57,7 +57,7 @@ POST /api/accounts/open
     
     curl -k -H "Content-Type: application/json" \
     -X POST -d '{"secret":"<INSERT SECRET HERE>"}' \
-    http://localhost:8000/api/accounts/open
+    http://localhost:9305/api/accounts/open
 
 ###Get balance
 
@@ -76,7 +76,7 @@ address: wallet address of the account
     }
 **Example**
     
-    curl -k -X GET http://localhost:8000/api/accounts/getBalance?address=<address>
+    curl -k -X GET http://localhost:9305/api/accounts/getBalance?address=<address>
 
 ###Get account public key
 
@@ -95,7 +95,7 @@ address: wallet address of the account
 
 **Example**
     
-    curl -k -X GET http://localhost:8000/api/accounts/getPublicKey?address=<address>
+    curl -k -X GET http://localhost:9305/api/accounts/getPublicKey?address=<address>
 
 ###Generate public key
 
@@ -118,7 +118,7 @@ POST /api/accounts/generatePublicKey
     
     curl -k -H "Content-Type: application/json" \
     -X POST -d '{"secret":"<INSERT SECRET HERE>"}' \
-    http://localhost:8000/api/accounts/generatePublicKey
+    http://localhost:9305/api/accounts/generatePublicKey
 
 ###Get account
 
@@ -145,7 +145,7 @@ address: wallet address of an account
 
 **Example**
     
-    curl -k -X GET http://localhost:8000/api/accounts?address=<address>
+    curl -k -X GET http://localhost:9305/api/accounts?address=<address>
 
 ###Get delegates
 
@@ -165,7 +165,7 @@ address: wallet address of account
 
 **Example**
 
-    curl -k -X GET http://localhost:8000/api/accounts/delegates?address=<address>
+    curl -k -X GET http://localhost:9305/api/accounts/delegates?address=<address>
 
 ###Put delegates
 
@@ -193,19 +193,19 @@ PUT /api/accounts/delegates
     
     curl -k -H "Content-Type: application/json" \
     -X PUT -d '{"secret":"<INSERT SECRET HERE>","publicKey"="<INSERT PUBLICKEY HERE>","delegates":["<INSERT DELEGATE PUBLICKEY HERE>"]}' \
-    http://localhost:8000/api/accounts/delegates
+    http://localhost:9305/api/accounts/delegates
     
 **Example - With Second Secret**
 
     curl -k -H "Content-Type: application/json" \
     -X PUT -d '{"secret":"<INSERT SECRET HERE>","publicKey"="<INSERT PUBLICKEY HERE>",secondSecret"="<INSERT SECONDSECRET HERE>,"delegates":["<INSERT DELEGATE PUBLICKEY HERE>"]}' \
-    http://localhost:8000/api/accounts/delegates
+    http://localhost:9305/api/accounts/delegates
     
 **Example - Multiple Votes**
 
     curl -k -H "Content-Type: application/json" \
     -X PUT -d '{"secret":"<INSERT SECRET HERE>","publicKey"="<INSERT PUBLICKEY HERE>","delegates":["<INSERT DELEGATE PUBLICKEY HERE>","<INSERT DELEGATE PUBLICKEY HERE>"]}' \
-    http://localhost:8000/api/accounts/delegates
+    http://localhost:9305/api/accounts/delegates
     
 ##Loader
 
@@ -228,7 +228,7 @@ GET /api/loader/status
 
 **Example**
     
-    curl -k -X GET http://localhost:8000/api/loader/status/
+    curl -k -X GET http://localhost:9305/api/loader/status/
     
 ###Get synchronization status
 
@@ -247,7 +247,7 @@ GET /api/loader/status/sync
 
 **Example**
     
-    curl -k -X GET http://localhost:8000/api/loader/status/sync
+    curl -k -X GET http://localhost:9305/api/loader/status/sync
     
 ##Transactions
 
@@ -282,15 +282,15 @@ All parameters join by "OR".
 
 **Example - blockId**
 
-    curl -k -X GET http://localhost:8000/api/transactions?blockId=<blockId>
+    curl -k -X GET http://localhost:9305/api/transactions?blockId=<blockId>
     
 **Example - senderId**
 
-    curl -k -X GET http://localhost:8000/api/transactions?senderId=<senderId>
+    curl -k -X GET http://localhost:9305/api/transactions?senderId=<senderId>
     
 **Example - senderId**
 
-    curl -k -X GET http://localhost:8000/api/transactions?recipientId=<recipientId>
+    curl -k -X GET http://localhost:9305/api/transactions?recipientId=<recipientId>
     
 ###Send transaction
 
@@ -319,14 +319,14 @@ PUT /api/transactions
 
     curl -k -H "Content-Type: application/json" \
     -X PUT -d '{"secret":"<INSERT SECRET HERE>","amount":<INSERT AMOUNT HERE>,"recipientId":"<INSERT WALLET ADDRESS HERE>"}' \
-    http://localhost:8000/api/transactions
+    http://localhost:9305/api/transactions
 
 **Example - Second Secret**
     
     curl -k -H "Content-Type: application/json" \
     -X PUT -d '{"secret":"<INSERT SECRET HERE>","secondSecret":"<INSERT SECOND SECRET HERE>",
     "amount":<INSERT AMOUNT HERE>,"recipientId":"<INSERT WALLET ADDRESS HERE>"}' \
-    http://localhost:8000/api/transactions
+    http://localhost:9305/api/transactions
     
 ###Get transaction
 
@@ -359,4 +359,36 @@ id: String of transaction (String)
 
 **Example**
 
-    curl -k -X GET http://localhost:8000/api/transactions/get?id=<id>
+    curl -k -X GET http://localhost:9305/api/transactions/get?id=<id>
+
+###Get unconfirmed transaction
+
+Get unconfirmed transaction that matches the provided id.
+
+GET /api/transactions/unconfirmed/get?id=id
+
+id: String of transaction (String)
+
+**Response**
+
+    {
+      "success": true,
+      "transaction": {
+      "id": "Id of transaction. String",
+      "type": "Type of transaction. Integer",
+      "subtype": "Subtype of transaction. Integer",
+      "timestamp": "Timestamp of transaction. Integer",
+      "senderPublicKey": "Sender public key of transaction. Hex",
+      "senderId": "Address of transaction sender. String",
+      "recipientId": "Recipient id of transaction. String",
+      "amount": "Amount. Integer",
+      "fee": "Fee. Integer",
+      "signature": "Signature. Hex",
+      "signSignature": "Second signature. Hex",
+      "confirmations": "Number of confirmations. Integer"
+      }
+    }
+
+**Example**
+
+    curl -k -X GET http://localhost:9305/api/transactions/unconfirmed/get?id=<id>
