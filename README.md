@@ -8,7 +8,7 @@ All endpoints will return:
 
 - Success parameter. true or false dependent on success.
 - Error parameter. Provided when response is unsuccessful.
-- 
+
 The API is only available after the client has successfully loaded,<br /> otherwise all endpoints will return:
 
     {
@@ -21,7 +21,7 @@ In the case the client is not fully synced all routes may return intermediate/ol
 
 Each API entry contains an example call to help provide understanding of how to use the call.
 These examples rely on curl being installed and Shift running on the localhost.
-The examples also include ```<field>´´´ use this for easy identification of what needs to be changed for the call to function.
+The examples also include ```<field>;``` use this for easy identification of what needs to be changed for the call to function.
 
 ##Accounts
 
