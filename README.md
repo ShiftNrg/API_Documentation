@@ -63,7 +63,7 @@ POST /api/accounts/open
 
 Request the balance of an account.
 
-GET /api/accounts/getBalance?address=<address>
+GET /api/accounts/getBalance?address=address
 
 address: wallet address of the account
 
