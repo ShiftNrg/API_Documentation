@@ -972,7 +972,9 @@ Get amount of Shift forged by an account.
 
     GET /api/delegates/forging/getForgedByAccount?generatorPublicKey=generatorPublicKey
 
-- generatorPublicKey: generator id of block in hex. (String)
+- generatorPublicKey: generator id of block in hex. (String) [Required]
+- start: Sets the start time of the search - timestamp UNIX time. (String) [Optional]
+- end: Sets the endtime of the search - timestamp UNIX time. (String) [Optional]
 
 **Response**
 
