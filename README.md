@@ -48,7 +48,7 @@
     * [Enable forging on delegate](#enable-forging-on-delegate)
     * [Disable forging on delegate](#disable-forging-on-delegate)
     * [Get forged by account](#get-forged-by-account)
-    * [Apps](#apps)
+  * [Apps](#apps)
     * [Get apps](#get-apps)
     * [Get app](#get-app)
     * [Search for apps](#search-for-apps)
