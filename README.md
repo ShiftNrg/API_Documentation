@@ -2,7 +2,6 @@
 
 ## Table of contents
 
-* [API_Documentation](#api_documentation)
   * [Introduction](#introduction)
   * [Accounts](#accounts)
     * [Open account](#open-account)
