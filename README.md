@@ -102,7 +102,9 @@ API calls related to Account functionality.
 
 Request information about an account.
 
+```
 POST /api/accounts/open
+```
 
 **Request**
 
@@ -134,7 +136,9 @@ POST /api/accounts/open
 
 Request the balance of an account.
 
+```
 GET /api/accounts/getBalance?address=address
+```
 
 address: wallet address of the account
 
@@ -153,7 +157,9 @@ address: wallet address of the account
 
 Get the public key of an account. If the account does not exist the API call will return an error.
 
+```
 GET /api/accounts/getPublicKey?address=address
+```
 
 address: wallet address of the account
 
@@ -172,7 +178,9 @@ address: wallet address of the account
 
 Returns the public key of the provided secret key.
 
+```
 POST /api/accounts/generatePublicKey
+```
 
 **Request**
 
@@ -195,7 +203,9 @@ POST /api/accounts/generatePublicKey
 
 Returns account information of an address.
 
+```
 GET /api/accounts?address=address
+```
 
 address: wallet address of an account
 
@@ -222,7 +232,9 @@ address: wallet address of an account
 
 Returns delegate accounts by address.
 
+```
 GET /api/accounts/delegates?address=address
+```
 
 address: wallet address of account
 
@@ -242,7 +254,9 @@ address: wallet address of account
 
 Vote for the selected delegates. Maximum of 33 delegates at once.
 
+```
 PUT /api/accounts/delegates
+```
 
 **Request**
 
@@ -286,7 +300,9 @@ Provides the synchronization and loading information of a client. These API call
 
 Returns the status of the blockchain
 
+```
 GET /api/loader/status
+```
 
 **Response**
 
@@ -305,7 +321,9 @@ GET /api/loader/status
 
 Get the synchronization status of the client.
 
+```
 GET /api/loader/status/sync
+```
 
 **Response**
 
@@ -368,7 +386,9 @@ All parameters join by "OR".
 
 Send transaction to broadcast network.
 
+```
 PUT /api/transactions
+```
 
 **Request**
 
@@ -404,7 +424,9 @@ PUT /api/transactions
 
 Get transaction that matches the provided id.
 
+```
 GET /api/transactions/get?id=id
+```
 
 id: String of transaction (String)
 
@@ -437,7 +459,9 @@ id: String of transaction (String)
 
 Get unconfirmed transaction that matches the provided id.
 
+```
 GET /api/transactions/unconfirmed/get?id=id
+```
 
 id: String of transaction (String)
 
@@ -469,7 +493,9 @@ id: String of transaction (String)
 
 Gets a list of unconfirmed transactions.
 
+```
 GET /api/transactions/unconfirmed
+```
 
 **Response**
 
@@ -490,7 +516,9 @@ Peers API.
 
 Gets list of peers from provided filter parameters.
 
+```
 GET /api/peers?state=state&os=os&version=version&limit=limit&offset=offset&orderBy=orderBy
+```
 
 - state: State of peer. 1 - disconnected. 2 - connected. 0 - banned. (String)
 - os: OS of peer. (String)
@@ -522,7 +550,9 @@ All parameters joins by "OR".
 
 Gets peer by IP address and port
 
+```
 GET /api/peers/get?ip=ip&port=port
+```
 
 - ip: Ip of peer. (String)
 - port: Port of peer. (Integer)
