@@ -1,6 +1,76 @@
 # API_Documentation
 
-##Introduction
+## Table of contents
+
+  * [Introduction](#introduction)
+  * [Accounts](#accounts)
+    * [Open account](#open-account)
+    * [Get balance](#get-balance)
+    * [Get account public key](#get-account-public-key)
+    * [Generate public key](#generate-public-key)
+    * [Get account](#get-account)
+    * [Get delegates](#get-delegates)
+    * [Put delegates](#put-delegates)
+  * [Loader](#loader)
+    * [Get loading status](#get-loading-status)
+    * [Get synchronization status](#get-synchronization-status)
+  * [Transactions](#transactions)
+    * [Get list of transactions](#get-list-of-transactions)
+    * [Send transaction](#send-transaction)
+    * [Get transaction](#get-transaction)
+    * [Get unconfirmed transaction](#get-unconfirmed-transaction)
+    * [Get list of unconfirmed transactions](#get-list-of-unconfirmed-transactions)
+  * [Peers](#peers)
+    * [Get peers list](#get-peers-list)
+    * [Get peer](#get-peer)
+    * [Get peer version, build time](#get-peer-version,-build-time)
+  * [Blocks](#blocks)
+    * [Get block](#get-block)
+    * [Get blocks](#get-blocks)
+    * [Get blockchain fee](#get-blockchain-fee)
+    * [Get blockchain fees schedule](#get-blockchain-fees-schedule)
+    * [Get blockchain reward schedule](#get-blockchain-reward-schedule)
+    * [Get supply of available Shift](#get-supply-of-available-shift)
+    * [Get blockchain height](#get-blockchain-height)
+    * [Gets status of height, fee, milestone, blockreward and supply](#gets-status-of-height,-fee,-milestone,-blockreward-and-supply)
+    * [Get blockchain nethash](#get-blockchain-nethash)
+    * [Get blockchain milestone](#get-blockchain-milestone)
+  * [Signatures](#signatures)
+    * [Get signature](#get-signature)
+    * [Add second signature](#add-second-signature)
+  * [Delegates](#delegates)
+    * [Enable delegate on account](#enable-delegate-on-account)
+    * [Get delegates list](#get-delegates-list)
+    * [Get delegate](#get-delegate)
+    * [Get delegates count](#get-delegates-count)
+    * [Get votes of account](#get-votes-of-account)
+    * [Get voters](#get-voters)
+    * [Enable forging on delegate](#enable-forging-on-delegate)
+    * [Disable forging on delegate](#disable-forging-on-delegate)
+    * [Get forged by account](#get-forged-by-account)
+  * [Apps](#apps)
+    * [Get apps](#get-apps)
+    * [Get app](#get-app)
+    * [Search for apps](#search-for-apps)
+    * [Install app](#install-app)
+    * [Installed apps](#installed-apps)
+    * [Installed apps Ids](#installed-apps-ids)
+    * [Uninstall apps](#uninstall-apps)
+    * [Launch app](#launch-app)
+    * [Installing](#installing)
+    * [Uninstalling](#uninstalling)
+    * [Launched](#launched)
+    * [Categories](#categories)
+    * [Stop app](#stop-app)
+  * [Multi-Signature](#multi-signature)
+    * [Get pending multi-signature transactions](#get-pending-multi-signature-transactions)
+    * [Create multi-signature account](#create-multi-signature-account)
+    * [Sign transaction](#sign-transaction)
+    * [Get accounts of multi-signature](#get-accounts-of-multi-signature)
+  * [Credits](#credits)
+    * [Informations](#informations)
+
+## Introduction
 
 Shift client API. All API endpoints are relative to the /api prefix.
 
@@ -23,15 +93,17 @@ Each API entry contains an example call to help provide understanding of how to 
 These examples rely on curl being installed and Shift running on the localhost.
 The examples also include ```<field>;``` use this for easy identification of what needs to be changed for the call to function.
 
-##Accounts
+## Accounts
 
 API calls related to Account functionality.
 
-###Open account
+### Open account
 
 Request information about an account.
 
+```
 POST /api/accounts/open
+```
 
 **Request**
 
@@ -54,82 +126,90 @@ POST /api/accounts/open
       }
     }
 **Example**
-    
+
     curl -k -H "Content-Type: application/json" \
     -X POST -d '{"secret":"<INSERT SECRET HERE>"}' \
     http://localhost:9305/api/accounts/open
 
-###Get balance
+### Get balance
 
 Request the balance of an account.
 
+```
 GET /api/accounts/getBalance?address=address
+```
 
 address: wallet address of the account
 
 **Response**
-    
+
     {
       "success": true,
       "balance": "Balance of account",
       "unconfirmedBalance": "Unconfirmed balance of account"
     }
 **Example**
-    
+
     curl -k -X GET http://localhost:9305/api/accounts/getBalance?address=<address>
 
-###Get account public key
+### Get account public key
 
 Get the public key of an account. If the account does not exist the API call will return an error.
 
+```
 GET /api/accounts/getPublicKey?address=address
+```
 
 address: wallet address of the account
 
 **Response**
-    
+
     {
       "success": true,
       "publicKey": "Public key of account. Hex"
     }
 
 **Example**
-    
+
     curl -k -X GET http://localhost:9305/api/accounts/getPublicKey?address=<address>
 
-###Generate public key
+### Generate public key
 
 Returns the public key of the provided secret key.
 
+```
 POST /api/accounts/generatePublicKey
+```
 
 **Request**
-    
+
     {
       "secret": "secret key of account"
     }
 **Response**
-    
+
     {
       "success": true,
       "publicKey": "Public key of account. Hex"
     }
 **Example**
-    
+
     curl -k -H "Content-Type: application/json" \
     -X POST -d '{"secret":"<INSERT SECRET HERE>"}' \
     http://localhost:9305/api/accounts/generatePublicKey
 
-###Get account
+### Get account
 
 Returns account information of an address.
 
+```
 GET /api/accounts?address=address
+```
 
 address: wallet address of an account
 
 **Response**
-    
+
     {
       "success": true,
       "account": {
@@ -144,14 +224,16 @@ address: wallet address of an account
     }
 
 **Example**
-    
+
     curl -k -X GET http://localhost:9305/api/accounts?address=<address>
 
-###Get delegates
+### Get delegates
 
 Returns delegate accounts by address.
 
+```
 GET /api/accounts/delegates?address=address
+```
 
 address: wallet address of account
 
@@ -167,11 +249,13 @@ address: wallet address of account
 
     curl -k -X GET http://localhost:9305/api/accounts/delegates?address=<address>
 
-###Put delegates
+### Put delegates
 
 Vote for the selected delegates. Maximum of 33 delegates at once.
 
+```
 PUT /api/accounts/delegates
+```
 
 **Request**
 
@@ -190,32 +274,34 @@ PUT /api/accounts/delegates
     }
 
 **Example - No Second Secret**
-    
+
     curl -k -H "Content-Type: application/json" \
     -X PUT -d '{"secret":"<INSERT SECRET HERE>","publicKey"="<INSERT PUBLICKEY HERE>","delegates":["<INSERT DELEGATE PUBLICKEY HERE>"]}' \
     http://localhost:9305/api/accounts/delegates
-    
+
 **Example - With Second Secret**
 
     curl -k -H "Content-Type: application/json" \
     -X PUT -d '{"secret":"<INSERT SECRET HERE>","publicKey"="<INSERT PUBLICKEY HERE>",secondSecret"="<INSERT SECONDSECRET HERE>,"delegates":["<INSERT DELEGATE PUBLICKEY HERE>"]}' \
     http://localhost:9305/api/accounts/delegates
-    
+
 **Example - Multiple Votes**
 
     curl -k -H "Content-Type: application/json" \
     -X PUT -d '{"secret":"<INSERT SECRET HERE>","publicKey"="<INSERT PUBLICKEY HERE>","delegates":["<INSERT DELEGATE PUBLICKEY HERE>","<INSERT DELEGATE PUBLICKEY HERE>"]}' \
     http://localhost:9305/api/accounts/delegates
-    
-##Loader
+
+## Loader
 
 Provides the synchronization and loading information of a client. These API calls will only work if the client is syncing or loading.
 
-###Get loading status
+### Get loading status
 
 Returns the status of the blockchain
 
+```
 GET /api/loader/status
+```
 
 **Response**
 
@@ -227,14 +313,16 @@ GET /api/loader/status
     }
 
 **Example**
-    
+
     curl -k -X GET http://localhost:9305/api/loader/status/
-    
-###Get synchronization status
+
+### Get synchronization status
 
 Get the synchronization status of the client.
 
+```
 GET /api/loader/status/sync
+```
 
 **Response**
 
@@ -246,19 +334,19 @@ GET /api/loader/status/sync
     }
 
 **Example**
-    
+
     curl -k -X GET http://localhost:9305/api/loader/status/sync
-    
-##Transactions
+
+## Transactions
 
 API calls related to transactions.
 
-###Get list of transactions
+### Get list of transactions
 
 List of transactions matched by provided parameters.
 
     GET /api/transactions?blockId=blockId&senderId=senderId&recipientId=recipientId&limit=limit&offset=offset&orderBy=field
-    
+
 - blockId: Block id of transaction. (String)
 - senderId: Sender address of transaction. (String)
 - recipientId: Recipient of transaction. (String)
@@ -271,7 +359,7 @@ All parameters join by "OR".
 **Example:**
 
     /api/transactions?blockId=10910396031294105665&senderId=6881298120989278452C&orderBy=timestamp:desc looks like: blockId=10910396031294105665 OR senderId=6881298120989278452C
-    
+
 **Response**
 
     {
@@ -284,20 +372,22 @@ All parameters join by "OR".
 **Example - blockId**
 
     curl -k -X GET http://localhost:9305/api/transactions?blockId=<blockId>
-    
+
 **Example - senderId**
 
     curl -k -X GET http://localhost:9305/api/transactions?senderId=<senderId>
-    
+
 **Example - senderId**
 
     curl -k -X GET http://localhost:9305/api/transactions?recipientId=<recipientId>
-    
-###Send transaction
+
+### Send transaction
 
 Send transaction to broadcast network.
 
+```
 PUT /api/transactions
+```
 
 **Request**
 
@@ -323,17 +413,19 @@ PUT /api/transactions
     http://localhost:9305/api/transactions
 
 **Example - Second Secret**
-    
+
     curl -k -H "Content-Type: application/json" \
     -X PUT -d '{"secret":"<INSERT SECRET HERE>","secondSecret":"<INSERT SECOND SECRET HERE>",
     "amount":<INSERT AMOUNT HERE>,"recipientId":"<INSERT WALLET ADDRESS HERE>"}' \
     http://localhost:9305/api/transactions
-    
-###Get transaction
+
+### Get transaction
 
 Get transaction that matches the provided id.
 
+```
 GET /api/transactions/get?id=id
+```
 
 id: String of transaction (String)
 
@@ -362,11 +454,13 @@ id: String of transaction (String)
 
     curl -k -X GET http://localhost:9305/api/transactions/get?id=<id>
 
-###Get unconfirmed transaction
+### Get unconfirmed transaction
 
 Get unconfirmed transaction that matches the provided id.
 
+```
 GET /api/transactions/unconfirmed/get?id=id
+```
 
 id: String of transaction (String)
 
@@ -394,11 +488,13 @@ id: String of transaction (String)
 
     curl -k -X GET http://localhost:9305/api/transactions/unconfirmed/get?id=<id>
 
-###Get list of unconfirmed transactions
+### Get list of unconfirmed transactions
 
 Gets a list of unconfirmed transactions.
 
+```
 GET /api/transactions/unconfirmed
+```
 
 **Response**
 
@@ -411,15 +507,17 @@ GET /api/transactions/unconfirmed
 
     curl -k -X GET http://localhost:9305/api/transactions/unconfirmed
 
-##Peers
+## Peers
 
 Peers API.
 
-###Get peers list
+### Get peers list
 
 Gets list of peers from provided filter parameters.
 
+```
 GET /api/peers?state=state&os=os&version=version&limit=limit&offset=offset&orderBy=orderBy
+```
 
 - state: State of peer. 1 - disconnected. 2 - connected. 0 - banned. (String)
 - os: OS of peer. (String)
@@ -444,14 +542,16 @@ All parameters joins by "OR".
     }
 
 **Example**
-    
+
     curl -k -X GET http://localhost:9305/api/peers
-    
-###Get peer
+
+### Get peer
 
 Gets peer by IP address and port
 
+```
 GET /api/peers/get?ip=ip&port=port
+```
 
 - ip: Ip of peer. (String)
 - port: Port of peer. (Integer)
@@ -467,7 +567,7 @@ GET /api/peers/get?ip=ip&port=port
 
     curl -k -X GET http://localhost:9305/api/peers/get?ip=<ip>&port=<port>
 
-###Get peer version, build time
+### Get peer version, build time
 
 Gets a list peer versions and build times
 
@@ -485,12 +585,12 @@ Gets a list peer versions and build times
 **Example**
 
     curl -k -X GET http://localhost:9305/api/peers/version
-    
-##Blocks
+
+## Blocks
 
 Blocks management API.
 
-###Get block
+### Get block
 
 Gets block by provided id.
 
@@ -529,7 +629,7 @@ Gets block by provided id.
 
     curl -k -X GET http://localhost:9305/api/blocks/get?id=<id>
 
-###Get blocks
+### Get blocks
 
 Gets all blocks by provided filter(s).
 
@@ -563,7 +663,7 @@ All parameters joins by OR.
 
     curl -k -X GET http://localhost:9305/api/blocks?generatorPublicKey=<generatorPublicKey>
 
-###Get blockchain fee
+### Get blockchain fee
 
 Get transaction fee for sending "normal" transactions.
 
@@ -580,14 +680,14 @@ Get transaction fee for sending "normal" transactions.
 
     curl -k -X GET http://localhost:9305/api/blocks/getFee
 
-###Get blockchain fees schedule
+### Get blockchain fees schedule
 
 Get transaction fee for all types of transactions.
 
     GET /api/blocks/getFees
 
 **Response**
-    
+
     {
       "success": true,
       "fees":{
@@ -604,7 +704,7 @@ Get transaction fee for all types of transactions.
 
     curl -k -X GET http://localhost:9305/api/blocks/getFees
 
-###Get blockchain reward schedule
+### Get blockchain reward schedule
 
 Gets the forging reward for blocks.
 
@@ -621,24 +721,24 @@ Gets the forging reward for blocks.
 
     curl -k -X GET http://localhost:9305/api/blocks/getReward
 
-###Get supply of available Shift
+### Get supply of available Shift
 
 Gets the total amount of Shift in circulation
 
     GET /api/blocks/getSupply
 
 **Response**
-    
+
     {
       "success": true,
       "supply": Integer
     }
-    
+
 **Example**
 
     curl -k -X GET http://localhost:9305/api/blocks/getSupply
 
-###Get blockchain height
+### Get blockchain height
 
 Gets the blockchain height of the client.
 
@@ -655,7 +755,7 @@ Gets the blockchain height of the client.
 
     curl -k -X GET http://localhost:9305/api/blocks/getHeight
 
-###Gets status of height, fee, milestone, blockreward and supply
+### Gets status of height, fee, milestone, blockreward and supply
 
 Gets status of height, fee, milestone, blockreward and supply
 
@@ -676,7 +776,7 @@ Gets status of height, fee, milestone, blockreward and supply
 
     curl -k -X GET http://localhost:9305/api/blocks/getStatus
 
-###Get blockchain nethash
+### Get blockchain nethash
 
 Gets the nethash of the blockchain on a client.
 
@@ -693,7 +793,7 @@ Gets the nethash of the blockchain on a client.
 
     curl -k -X GET http://localhost:9305/api/blocks/getNethash
 
-###Get blockchain milestone
+### Get blockchain milestone
 
 Gets the milestone of the blockchain on a client.
 
@@ -710,11 +810,11 @@ Gets the milestone of the blockchain on a client.
 
     curl -k -X GET http://localhost:9305/api/blocks/getMilestone
 
-##Signatures
+## Signatures
 
 Signature management API.
 
-###Get signature
+### Get signature
 
 Gets the second signature status of an account.
 
@@ -740,7 +840,7 @@ Gets the second signature status of an account.
 
     curl -k -X GET http://localhost:9305/api/signatures/get?id=<id>
 
-###Add second signature
+### Add second signature
 
 Add a second signature to an account.
 
@@ -763,16 +863,16 @@ Add a second signature to an account.
     }
 
 **Example**
-    
+
     curl -k -H "Content-Type: application/json" \
     -X PUT -d '{"secret":"<INSERT SECRET HERE>","secondSecret":"<INSERT SECOND SECRET HERE>","publicKey":"<INSERT PUBLIC KEY HERE>" }' \
     http://localhost:9305/api/signatures
 
-##Delegates
+## Delegates
 
 Delegates API.
 
-###Enable delegate on account
+### Enable delegate on account
 
 Puts request to create a delegate.
 
@@ -799,7 +899,7 @@ Puts request to create a delegate.
     -X PUT -d '{"secret":"<INSERT SECRET HERE>","secondSecret":"<INSERT SECOND SECRET HERE>","username":"<INSERT USERNAME HERE>" }' \
     http://localhost:9305/api/delegates
 
-###Get delegates list
+### Get delegates list
 
 Gets list of delegates by provided filter.
 
@@ -822,7 +922,7 @@ Gets list of delegates by provided filter.
 
     curl -k -X GET http://localhost:9305/api/delegates?limit=<limit>
 
-###Get delegate
+### Get delegate
 
 Gets delegate by public key or username.
 
@@ -857,7 +957,7 @@ Gets delegate by public key or username.
 
     curl -k -X GET http://localhost:9305/api/delegates/get?publicKey=publicKey
 
-###Get delegates count
+### Get delegates count
 
 Get total count of registered delegates.
 
@@ -874,7 +974,7 @@ Get total count of registered delegates.
 
     curl -k -X GET http://localhost:9305/api/delegates/count
 
-###Get votes of account
+### Get votes of account
 
 Get votes by account wallet address.
 
@@ -895,7 +995,7 @@ Get votes by account wallet address.
 
     curl -k -X GET http://localhost:9305/api/accounts/delegates/?address=<address>
 
-###Get voters
+### Get voters
 
 Get voters of delegate.
 
@@ -916,7 +1016,7 @@ Get voters of delegate.
 
     curl -k -X GET http://localhost:9305/api/delegates/voters?publicKey=<publicKey>
 
-###Enable forging on delegate
+### Enable forging on delegate
 
 Enables forging for a delegate on the client node.
 
@@ -941,7 +1041,7 @@ Enables forging for a delegate on the client node.
     -X POST -d '{"secret":"<INSERT SECRET HERE>"}' \
     http://localhost:9305/api/delegates/forging/enable
 
-###Disable forging on delegate
+### Disable forging on delegate
 
 Disables forging for a delegate on the client node.
 
@@ -966,7 +1066,7 @@ Disables forging for a delegate on the client node.
     -X POST -d '{"secret":"<INSERT SECRET HERE>"}' \
     http://localhost:9305/api/delegates/forging/disable
 
-###Get forged by account
+### Get forged by account
 
 Get amount of Shift forged by an account.
 
@@ -982,15 +1082,15 @@ Get amount of Shift forged by an account.
     }
 
 **Example**
-  
-    curl -k -X GET http://localhost:9305/api/delegates/forging/getForgedByAccount?generatorPublicKey=<generatorPublicKey>
-    
 
-##Apps
+    curl -k -X GET http://localhost:9305/api/delegates/forging/getForgedByAccount?generatorPublicKey=<generatorPublicKey>
+
+
+## Apps
 
 Blockchain Applications API.
 
-##Apps
+## Apps
 
 Registers a Blockchain Application.
 
@@ -1026,7 +1126,7 @@ Registers a Blockchain Application.
     "type":0,"link":"<INSERT LINK TO APPLICATION HERE>"}' \
     http://localhost:9305/api/dapps
 
-###Get apps
+### Get apps
 
 Gets a list of Blockchain Applications registered on the network.
 
@@ -1052,7 +1152,7 @@ Gets a list of Blockchain Applications registered on the network.
 
     curl -k -X GET http://localhost:9305/api/dapps?name=<INSERT APPLICATION NAME HERE>
 
-###Get app
+### Get app
 
 Gets a specific Blockchain Application by registered id.
 
@@ -1071,7 +1171,7 @@ Gets a specific Blockchain Application by registered id.
 
     curl -k -X GET http://localhost:9305/api/dapps/get?id=<id>
 
-###Search for apps
+### Search for apps
 
 Searches for Blockchain Applications by filter(s) on a node.
 
@@ -1094,7 +1194,7 @@ Searches for Blockchain Applications by filter(s) on a node.
 
     curl -k -X GET http://localhost:9305/api/dapps/search?installed=1
 
-###Install app
+### Install app
 
 Installs a app by id on the node.
 
@@ -1119,7 +1219,7 @@ Installs a app by id on the node.
     -X POST -d '{"id":"<INSERT ID HERE>"}' \
     http://localhost:9305/api/dapps/install
 
-###Installed apps
+### Installed apps
 
 Returns a list of installed apps on the requested node.
 
@@ -1138,7 +1238,7 @@ Returns a list of installed apps on the requested node.
 
     curl -k -X GET http://localhost:9305/api/dapps/installed
 
-###Installed apps Ids
+### Installed apps Ids
 
 Returns a list of installed app ids on the requested node.
 
@@ -1157,7 +1257,7 @@ Returns a list of installed app ids on the requested node.
 
     curl -k -X GET http://localhost:9305/api/dapps/installedIds
 
-###Uninstall apps
+### Uninstall apps
 
 Uninstalls a app by id from the requested node.
 
@@ -1181,7 +1281,7 @@ Uninstalls a app by id from the requested node.
     -X POST -d '{"id":"<INSERT ID HERE>"}' \
     http://localhost:9305/api/dapps/uninstall
 
-###Launch app
+### Launch app
 
 Launches a app by id on the requested node.
 
@@ -1206,7 +1306,7 @@ Launches a app by id on the requested node.
     -X POST -d '{"id":"<INSERT ID HERE>"}' \
     http://localhost:9305/api/dapps/launch
 
-###Installing
+### Installing
 
 Returns a list of app ids currently being installed on the requested node.
 
@@ -1225,7 +1325,7 @@ Returns a list of app ids currently being installed on the requested node.
 
     curl -k -X GET http://localhost:9305/api/dapps/installing
 
-###Uninstalling
+### Uninstalling
 
 Returns a list of app ids currently being uninstalled on the client node.
 
@@ -1244,7 +1344,7 @@ Returns a list of app ids currently being uninstalled on the client node.
 
     curl -k -X GET http://localhost:9305/api/dapps/uninstalling
 
-###Launched
+### Launched
 
 Returns a list of app ids which are currently launched on the client node.
 
@@ -1263,7 +1363,7 @@ Returns a list of app ids which are currently launched on the client node.
 
     curl -k -X GET http://localhost:9305/api/dapps/launched
 
-###Categories
+### Categories
 
 Returns a full list of app categories.
 
@@ -1280,7 +1380,7 @@ Returns a full list of app categories.
 
     curl -k -X GET http://localhost:9305/api/dapps/categories
 
-###Stop app
+### Stop app
 
 Stops a app by id on the requested node.
 
@@ -1304,11 +1404,11 @@ Stops a app by id on the requested node.
     -X POST -d '{"id":"<INSERT ID HERE>"}' \
     http://localhost:9305/api/dapps/stop
 
-##Multi-Signature
+## Multi-Signature
 
 Multi-signature API.
 
-###Get pending multi-signature transactions
+### Get pending multi-signature transactions
 
 Returns a list of multi-signature transactions that waiting for signature by publicKey.
 
@@ -1327,7 +1427,7 @@ Returns a list of multi-signature transactions that waiting for signature by pub
 
     curl -k -X GET http://localhost:9305/api/multisignatures/pending?publicKey=<publicKey>
 
-###Create multi-signature account
+### Create multi-signature account
 
 Create a multi-signature account.
 
@@ -1355,7 +1455,7 @@ Create a multi-signature account.
     -X PUT -d '{"secret":"<INSERT SECRET HERE>","lifetime":<INSERT NUMBER HERE>,"min":<INSERT NUMBER OF SIGNATURES HERE>,"keysgroup":["+<INSERT PUBLIC KEY HERE>","+<INSERT PUBLIC KEY HERE>"] }' \
     http://localhost:9305/api/multisignatures
 
-###Sign transaction
+### Sign transaction
 
 Signs a transaction that is awaiting signature.
 
@@ -1377,12 +1477,12 @@ Signs a transaction that is awaiting signature.
     }
 
 **Example**
-    
+
     curl -k -H "Content-Type: application/json" \
     -X POST -d '{"secret":"<INSERT SECRET HERE>","transactionId":"<INSERT TRANSACTION ID HERE>"}' \
     http://localhost:9305/api/multisignatures/sign
-    
-###Get accounts of multi-signature
+
+### Get accounts of multi-signature
 
 Gets a list of accounts that are part of a multi-signature account.
 
@@ -1403,10 +1503,10 @@ Gets a list of accounts that are part of a multi-signature account.
 
 
 
-##Credits
+## Credits
 
 This API is based on the LISK API, the syntax is nearly the same.
 
-###Informations
+### Informations
 Initial Written by List Team<br />
 Ported to Shift-Github Repo by LeChuckDE
