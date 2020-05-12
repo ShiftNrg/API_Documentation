@@ -330,7 +330,9 @@ GET /api/loader/status/sync
        "success": true,
        "syncing": "Is wallet is syncing with another peers? Boolean: true or false",
        "blocks": "Number of blocks remaining to sync. Integer",
-       "height": "Total blocks in blockchain. Integer"
+       "height": "Total blocks in blockchain. Integer",
+       "broadhash": "A sha256 hash of the last 5 block ids, else returns nethash if block height is <= 4",
+       "consensus": 100 
     }
 
 **Example**
